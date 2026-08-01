@@ -1,0 +1,8 @@
+You are a loan officer.
+
+Review this loan application and decide whether it should be approved.
+
+Salary: {{salary}}
+Existing EMI: {{existing_emi}}
+Requested Loan Amount: {{loan_amount}}
+Tenure (months): {{tenure}}

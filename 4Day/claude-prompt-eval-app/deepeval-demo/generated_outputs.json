@@ -1,0 +1,50 @@
+[
+  {
+    "id": "L001",
+    "prompt_version": "v1",
+    "input": "You are a loan officer.\n\nReview this loan application and decide whether it should be approved.\n\nSalary: 90000\nExisting EMI: 12000\nRequested Loan Amount: 400000\nTenure (months): 36\n",
+    "applicant_facts": "Monthly Salary: 90000. Existing Monthly EMI obligations: 12000. Requested Loan Amount: 400000. Requested Tenure: 36 months.",
+    "expected": "Approve",
+    "actual_output": "# LOAN APPLICATION REVIEW\n\n## Applicant Details\n- **Annual Salary:** \u20b990,000\n- **Existing EMI:** \u20b912,000/month\n- **Requested Loan Amount:** \u20b9400,000\n- **Tenure:** 36 months\n\n## Financial Analysis\n\n### 1. **Estimated New EMI** (36-month loan)\nAssuming ~12% annual interest rate:\n- **New EMI \u2248 \u20b912,800/month**\n\n### 2. **Total Monthly Obligations**\n- Existing EMI: \u20b912,000\n- New EMI: \u20b912,800\n- **Total: \u20b924,800/month**\n\n### 3. **Monthly Income**\n- Annual Salary: \u20b990,000\n- **Monthly Income: \u20b97,500**\n\n### 4. **Debt-to-Income Ratio**\n- EMI to Income: 24,800 \u00f7 7,500 = **330%**\n- Industry Standard: Should be < 50%\n\n---\n\n## **RECOMMENDATION: \u274c REJECTED**\n\n### Reasons:\n1. **Critical Issue:** Total monthly EMI (\u20b924,800) **exceeds monthly income** (\u20b9"
+  },
+  {
+    "id": "L001",
+    "prompt_version": "v2",
+    "input": "You are a Senior Loan Officer at a regulated bank. Review the application below using ONLY the information provided - do not assume anything that isn't stated.\n\nApplicant details:\n- Monthly Salary: 90000\n- Existing Monthly EMI obligations: 12000\n- Requested Loan Amount: 400000\n- Requested Tenure (months): 36\n\nApproval rule: total monthly EMI obligations (existing EMI plus the new loan's EMI) must not exceed 50% of monthly salary. Estimate the new loan's EMI using a standard reducing-balance calculation at a 12% annual interest rate over the given tenure.\n\nRespond in EXACTLY this format and nothing else:\nDecision: Approve or Reject\nReason: <one sentence>\n",
+    "applicant_facts": "Monthly Salary: 90000. Existing Monthly EMI obligations: 12000. Requested Loan Amount: 400000. Requested Tenure: 36 months.",
+    "expected": "Approve",
+    "actual_output": "Decision: Approve\n\nReason: The new loan's estimated EMI of 12,697 combined with existing EMI of 12,000 totals 24,697, which is 27.4% of monthly salary and well below the 50% threshold of 45,000."
+  },
+  {
+    "id": "L002",
+    "prompt_version": "v1",
+    "input": "You are a loan officer.\n\nReview this loan application and decide whether it should be approved.\n\nSalary: 30000\nExisting EMI: 20000\nRequested Loan Amount: 500000\nTenure (months): 60\n",
+    "applicant_facts": "Monthly Salary: 30000. Existing Monthly EMI obligations: 20000. Requested Loan Amount: 500000. Requested Tenure: 60 months.",
+    "expected": "Reject",
+    "actual_output": "# Loan Application Review\n\n## Application Summary\n- **Monthly Salary:** \u20b930,000\n- **Existing EMI:** \u20b920,000\n- **Requested Loan:** \u20b9500,000\n- **Tenure:** 60 months\n- **Estimated New EMI:** ~\u20b910,400\n\n---\n\n## Analysis\n\n### 1. **Debt-to-Income Ratio** \u26a0\ufe0f **CRITICAL ISSUE**\n- **Current Obligations:** \u20b920,000 (66.7% of salary)\n- **With New Loan:** \u20b930,400 (101.3% of salary)\n- **Standard Threshold:** Should not exceed 40-50%\n- **Assessment:** FAILS - Applicant would be spending more than 100% of income on EMIs\n\n### 2. **Repayment Capacity** \u274c\n- After existing EMI (\u20b920,000), only **\u20b910,000 remains** for:\n  - New loan EMI (~\u20b910,400)\n  - Food, utilities, rent, insurance\n  - Emergency expenses\n- **Assessment:** Insufficient buffer; high default risk\n\n### 3. **Loan Amount Reasonability**\n- Safe lending limit: ~\u20b9150,000-"
+  },
+  {
+    "id": "L002",
+    "prompt_version": "v2",
+    "input": "You are a Senior Loan Officer at a regulated bank. Review the application below using ONLY the information provided - do not assume anything that isn't stated.\n\nApplicant details:\n- Monthly Salary: 30000\n- Existing Monthly EMI obligations: 20000\n- Requested Loan Amount: 500000\n- Requested Tenure (months): 60\n\nApproval rule: total monthly EMI obligations (existing EMI plus the new loan's EMI) must not exceed 50% of monthly salary. Estimate the new loan's EMI using a standard reducing-balance calculation at a 12% annual interest rate over the given tenure.\n\nRespond in EXACTLY this format and nothing else:\nDecision: Approve or Reject\nReason: <one sentence>\n",
+    "applicant_facts": "Monthly Salary: 30000. Existing Monthly EMI obligations: 20000. Requested Loan Amount: 500000. Requested Tenure: 60 months.",
+    "expected": "Reject",
+    "actual_output": "Decision: Reject\nReason: The new loan's estimated EMI of 10,717 would result in total monthly EMI obligations of 30,717, exceeding the 50% salary threshold of 15,000."
+  },
+  {
+    "id": "L003",
+    "prompt_version": "v1",
+    "input": "You are a loan officer.\n\nReview this loan application and decide whether it should be approved.\n\nSalary: 75000\nExisting EMI: 5000\nRequested Loan Amount: 200000\nTenure (months): 24\n",
+    "applicant_facts": "Monthly Salary: 75000. Existing Monthly EMI obligations: 5000. Requested Loan Amount: 200000. Requested Tenure: 24 months.",
+    "expected": "Approve",
+    "actual_output": "# Loan Application Review\n\n## Applicant Details\n- **Annual Salary:** $75,000\n- **Monthly Income:** $6,250\n- **Existing EMI:** $5,000\n- **Requested Loan Amount:** $200,000\n- **Tenure:** 24 months\n\n---\n\n## Analysis\n\n### 1. **New EMI Calculation**\nEstimated monthly EMI for $200,000 at ~8-10% interest over 24 months: **~$8,800 - $9,200**\n\n### 2. **Debt Service Ratio**\n- **Total Monthly Obligations:** $5,000 (existing) + $8,800-$9,200 (new) = **$13,800 - $14,200**\n- **Monthly Income:** $6,250\n- **Debt Ratio:** 220-227% of monthly income\n\n### 3. **Key Concerns** \u26a0\ufe0f\n\n| Factor | Status | Issue |\n|--------|--------|-------|\n| **Debt-to-Income Ratio** | \u274c CRITICAL | Far exceeds recommended 50% ceiling |\n| **Cash Flow** | \u274c NEGATIVE | Monthly obligations exceed income by $7,500+ |\n| **Repayment Capacity** | "
+  },
+  {
+    "id": "L003",
+    "prompt_version": "v2",
+    "input": "You are a Senior Loan Officer at a regulated bank. Review the application below using ONLY the information provided - do not assume anything that isn't stated.\n\nApplicant details:\n- Monthly Salary: 75000\n- Existing Monthly EMI obligations: 5000\n- Requested Loan Amount: 200000\n- Requested Tenure (months): 24\n\nApproval rule: total monthly EMI obligations (existing EMI plus the new loan's EMI) must not exceed 50% of monthly salary. Estimate the new loan's EMI using a standard reducing-balance calculation at a 12% annual interest rate over the given tenure.\n\nRespond in EXACTLY this format and nothing else:\nDecision: Approve or Reject\nReason: <one sentence>\n",
+    "applicant_facts": "Monthly Salary: 75000. Existing Monthly EMI obligations: 5000. Requested Loan Amount: 200000. Requested Tenure: 24 months.",
+    "expected": "Approve",
+    "actual_output": "Decision: Approve\n\nReason: New loan EMI of approximately 9,200 combined with existing EMI of 5,000 totals 14,200, which is 18.9% of monthly salary and well below the 50% threshold of 37,500."
+  }
+]

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Claude Prompt Testing - Loan Approval</title>
+<style>
+  :root {
+    --bg: #f6f7f9;
+    --card: #ffffff;
+    --border: #e2e5ea;
+    --text: #1a1d23;
+    --muted: #6b7280;
+    --pass: #167a3d;
+    --pass-bg: #e6f6ec;
+    --fail: #b3261e;
+    --fail-bg: #fdecea;
+    --accent: #2f5fdb;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+  }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 32px 20px 64px; }
+  h1 { font-size: 22px; margin-bottom: 4px; }
+  .subtitle { color: var(--muted); margin-bottom: 28px; font-size: 14px; }
+  .prompts { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .card h3 { margin: 0 0 8px; font-size: 14px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+  .card pre {
+    white-space: pre-wrap;
+    font-size: 13px;
+    margin: 0;
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    line-height: 1.5;
+  }
+  button {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  button:disabled { opacity: 0.6; cursor: default; }
+  .summary { display: flex; gap: 16px; margin: 20px 0; }
+  .stat {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 20px;
+    flex: 1;
+  }
+  .stat .label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+  .stat .value { font-size: 24px; font-weight: 600; margin-top: 4px; }
+  table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 10px; overflow: hidden; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); font-size: 13px; vertical-align: top; }
+  th { background: #f0f2f5; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
+  .badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .badge.pass { background: var(--pass-bg); color: var(--pass); }
+  .badge.fail { background: var(--fail-bg); color: var(--fail); }
+  details summary { cursor: pointer; color: var(--accent); font-size: 12px; margin-top: 4px; }
+  details pre { font-size: 12px; white-space: pre-wrap; margin-top: 6px; color: var(--muted); }
+  .note { font-size: 13px; color: var(--muted); margin-top: 24px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script type="text/babel" data-presets="react">
+const { useState, useEffect } = React;
+
+function DecisionCell({ result }) {
+  return (
+    <div>
+      <span className={"badge " + (result.pass ? "pass" : "fail")}>
+        {result.decision} {result.pass ? "✓" : "✗"}
+      </span>
+      <details>
+        <summary>raw response</summary>
+        <pre>{result.raw}</pre>
+      </details>
+    </div>
+  );
+}
+
+function App() {
+  const [prompts, setPrompts] = useState(null);
+  const [results, setResults] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetch("/api/prompts").then(r => r.json()).then(setPrompts);
+  }, []);
+
+  async function runEvaluation() {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch("/api/run", { method: "POST" });
+      if (!response.ok) throw new Error((await response.json()).error || "Request failed");
+      const data = await response.json();
+      setResults(data.results);
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const v1Passes = results ? results.filter(r => r.v1.pass).length : null;
+  const v2Passes = results ? results.filter(r => r.v2.pass).length : null;
+
+  return (
+    <div className="wrap">
+      <h1>Claude Prompt Testing - Loan Approval</h1>
+      <p className="subtitle">
+        Same golden dataset, two prompt versions, run against Claude live. A prompt that "reads well"
+        doesn't guarantee correct answers - this is what actually checking the output looks like.
+      </p>
+
+      {prompts && (
+        <div className="prompts">
+          <div className="card">
+            <h3>Prompt v1 (loose)</h3>
+            <pre>{prompts.v1}</pre>
+          </div>
+          <div className="card">
+            <h3>Prompt v2 (structured)</h3>
+            <pre>{prompts.v2}</pre>
+          </div>
+        </div>
+      )}
+
+      <button onClick={runEvaluation} disabled={loading}>
+        {loading ? "Running against Claude..." : "Run Evaluation"}
+      </button>
+      {error && <p style={{ color: "var(--fail)" }}>{error}</p>}
+
+      {results && (
+        <React.Fragment>
+          <div className="summary">
+            <div className="stat">
+              <div className="label">Prompt v1 accuracy</div>
+              <div className="value">{v1Passes}/{results.length}</div>
+            </div>
+            <div className="stat">
+              <div className="label">Prompt v2 accuracy</div>
+              <div className="value">{v2Passes}/{results.length}</div>
+            </div>
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Salary</th>
+                <th>Existing EMI</th>
+                <th>Loan Amount</th>
+                <th>Tenure</th>
+                <th>Expected</th>
+                <th>Prompt v1</th>
+                <th>Prompt v2</th>
+              </tr>
+            </thead>
+            <tbody>
+              {results.map(r => (
+                <tr key={r.id}>
+                  <td>{r.id}</td>
+                  <td>{r.salary}</td>
+                  <td>{r.existing_emi}</td>
+                  <td>{r.loan_amount}</td>
+                  <td>{r.tenure}</td>
+                  <td>{r.expected}</td>
+                  <td><DecisionCell result={r.v1} /></td>
+                  <td><DecisionCell result={r.v2} /></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </React.Fragment>
+      )}
+
+      <p className="note">
+        Golden dataset: data/golden_dataset.json &middot; Prompts: prompts/prompt_v1.txt, prompts/prompt_v2.txt
+      </p>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>

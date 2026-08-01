@@ -1,0 +1,7 @@
+.env
+venv/
+__pycache__/
+.pytest_cache/
+.deepeval/
+.deepeval-cache.json
+temp_test_run_data.json

@@ -1,0 +1,25 @@
+app:
+  name: enterprise-digital-banking
+  version: 1.0.0
+
+server:
+  port: ${SERVER_PORT:8000}
+
+database:
+  url: ${DB_URL:sqlite:///./digital_banking.db}
+  echo: ${DB_ECHO:false}
+
+jwt:
+  secret: ${JWT_SECRET:change-this-to-a-long-random-secret-in-every-environment}
+  expiration-minutes: ${JWT_EXPIRATION_MINUTES:1440}
+
+loan:
+  default-interest-rate: ${LOAN_DEFAULT_INTEREST_RATE:10.5}
+  max-tenure-months: ${LOAN_MAX_TENURE_MONTHS:360}
+  min-amount: ${LOAN_MIN_AMOUNT:10000}
+  max-amount: ${LOAN_MAX_AMOUNT:5000000}
+
+notification:
+  # CONSOLE logs notifications to stdout/log file instead of a real provider - swap
+  # in an EMAIL/SMS gateway integration in notification_service/service.py later.
+  channel: ${NOTIFICATION_CHANNEL:CONSOLE}

@@ -1,0 +1,14 @@
+{
+  "name": "claude-prompt-eval-app",
+  "version": "1.0.0",
+  "description": "Minimal React + Node app for testing Claude prompts against a golden dataset",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.115.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  }
+}

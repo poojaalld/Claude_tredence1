@@ -1,0 +1,10 @@
+.env
+__pycache__/
+*.pyc
+.venv/
+venv/
+vectorstore/faiss_index/*.index
+vectorstore/faiss_index/*.pkl
+logs/*.log
+data/raw/*
+!data/raw/.gitkeep

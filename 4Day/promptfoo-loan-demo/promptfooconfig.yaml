@@ -1,0 +1,34 @@
+description: Loan Approval Prompt Testing
+
+prompts:
+  - prompts/loan_prompt_v1.txt
+  - prompts/loan_prompt_v2.txt
+
+providers:
+  - id: anthropic:claude-haiku-4-5-20251001
+
+tests:
+
+  - vars:
+      salary: 90000
+      existing_emi: 12000
+      loan_amount: 400000
+    assert:
+      - type: contains
+        value: Approve
+
+  - vars:
+      salary: 30000
+      existing_emi: 20000
+      loan_amount: 500000
+    assert:
+      - type: contains
+        value: Reject
+
+  - vars:
+      salary: 120000
+      existing_emi: 15000
+      loan_amount: 800000
+    assert:
+      - type: contains
+        value: Approve
