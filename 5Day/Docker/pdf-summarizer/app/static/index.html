@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>PDF Summarizer — Claude + Docker Demo</title>
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    font-family: -apple-system, Segoe UI, Roboto, sans-serif;
+    max-width: 680px;
+    margin: 48px auto;
+    padding: 0 20px;
+    line-height: 1.5;
+  }
+  h1 { font-size: 1.5rem; margin-bottom: 4px; }
+  p.sub { color: #666; margin-top: 0; }
+  .dropzone {
+    border: 2px dashed #999;
+    border-radius: 10px;
+    padding: 32px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .dropzone.drag { border-color: #6f5cff; background: rgba(111, 92, 255, 0.08); }
+  .dropzone input { display: none; }
+  #filename { margin-top: 10px; font-size: 0.9rem; color: #444; }
+  button {
+    margin-top: 16px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    background: #6f5cff;
+    color: white;
+    cursor: pointer;
+  }
+  button:disabled { opacity: 0.5; cursor: not-allowed; }
+  #status { margin-top: 16px; font-size: 0.95rem; }
+  #result {
+    margin-top: 20px;
+    padding: 16px 20px;
+    border-radius: 10px;
+    background: rgba(127, 127, 127, 0.08);
+    white-space: pre-wrap;
+    display: none;
+  }
+  #error {
+    margin-top: 16px;
+    color: #d33;
+    display: none;
+  }
+  .spinner {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid #ccc;
+    border-top-color: #6f5cff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+  <h1>📄 PDF Summarizer</h1>
+  <p class="sub">Upload a PDF — Claude reads it and generates a summary.</p>
+
+  <div class="dropzone" id="dropzone">
+    <div>Click to choose a PDF, or drag one here</div>
+    <div id="filename"></div>
+    <input type="file" id="fileInput" accept="application/pdf" />
+  </div>
+
+  <button id="summarizeBtn" disabled>Summarize</button>
+
+  <div id="status"></div>
+  <div id="error"></div>
+  <div id="result"></div>
+
+  <script>
+    const dropzone = document.getElementById("dropzone");
+    const fileInput = document.getElementById("fileInput");
+    const filenameEl = document.getElementById("filename");
+    const btn = document.getElementById("summarizeBtn");
+    const statusEl = document.getElementById("status");
+    const errorEl = document.getElementById("error");
+    const resultEl = document.getElementById("result");
+
+    let selectedFile = null;
+
+    dropzone.addEventListener("click", () => fileInput.click());
+    dropzone.addEventListener("dragover", (e) => { e.preventDefault(); dropzone.classList.add("drag"); });
+    dropzone.addEventListener("dragleave", () => dropzone.classList.remove("drag"));
+    dropzone.addEventListener("drop", (e) => {
+      e.preventDefault();
+      dropzone.classList.remove("drag");
+      if (e.dataTransfer.files.length) setFile(e.dataTransfer.files[0]);
+    });
+    fileInput.addEventListener("change", () => {
+      if (fileInput.files.length) setFile(fileInput.files[0]);
+    });
+
+    function setFile(file) {
+      if (file.type !== "application/pdf" && !file.name.toLowerCase().endsWith(".pdf")) {
+        showError("Please choose a PDF file.");
+        return;
+      }
+      selectedFile = file;
+      filenameEl.textContent = `Selected: ${file.name} (${(file.size / 1024).toFixed(0)} KB)`;
+      btn.disabled = false;
+      hideError();
+    }
+
+    function showError(msg) {
+      errorEl.textContent = msg;
+      errorEl.style.display = "block";
+    }
+    function hideError() {
+      errorEl.style.display = "none";
+    }
+
+    btn.addEventListener("click", async () => {
+      if (!selectedFile) return;
+      btn.disabled = true;
+      hideError();
+      resultEl.style.display = "none";
+      statusEl.innerHTML = '<span class="spinner"></span>Summarizing... this can take up to a minute.';
+
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+
+      try {
+        const res = await fetch("/api/summarize", { method: "POST", body: formData });
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.detail || "Something went wrong.");
+        }
+        statusEl.textContent = `Done — model: ${data.model}`;
+        resultEl.textContent = data.summary;
+        resultEl.style.display = "block";
+      } catch (err) {
+        statusEl.textContent = "";
+        showError(err.message);
+      } finally {
+        btn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

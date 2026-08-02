@@ -1,0 +1,10 @@
+services:
+  prompt-injection-demo:
+    build: .
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
+      - ./governance:/app/governance
