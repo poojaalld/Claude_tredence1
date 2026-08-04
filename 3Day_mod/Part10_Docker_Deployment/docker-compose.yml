@@ -1,0 +1,77 @@
+services:
+  # One-shot ingestion: runs Parts 2-5 (load -> chunk -> embed -> index)
+  # against the storage_data volume, then exits. Skips straight to
+  # (re)building the index if embeddings.npy is already present -- so a
+  # plain restart never re-runs the costly, rate-limited embedding calls.
+  ingest:
+    build:
+      context: ..
+      dockerfile: Part10_Docker_Deployment/Dockerfile
+    image: banking-rag:latest
+    env_file: ../shared/.env
+    volumes:
+      - storage_data:/app/shared/storage
+    command: >
+      sh -c "
+      if [ -f /app/shared/storage/embeddings.npy ]; then
+        echo 'embeddings.npy already present -- skipping load/chunk/embed (delete the storage_data volume to force a full rebuild)';
+      else
+        python Part2_Document_Loader/document_loader.py &&
+        python Part3_Semantic_Chunking/semantic_chunker.py &&
+        python Part4_Embedding_Generation/generate_embeddings.py;
+      fi &&
+      python Part5_Vector_Indexing/build_index.py
+      "
+
+  backend:
+    image: banking-rag:latest
+    depends_on:
+      ingest:
+        condition: service_completed_successfully
+    env_file: ../shared/.env
+    volumes:
+      - storage_data:/app/shared/storage
+    ports:
+      - "8000:8000"
+    command: python Part8_FastAPI_Backend/main.py
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  frontend:
+    image: banking-rag:latest
+    depends_on:
+      backend:
+        condition: service_healthy
+    env_file: ../shared/.env
+    environment:
+      # Overrides shared/.env's API_BASE_URL (localhost, meant for local dev)
+      # with the backend's name on the compose network.
+      - API_BASE_URL=http://backend:8000
+    ports:
+      - "8501:8501"
+    command: streamlit run Part9_Streamlit_Frontend/app.py --server.address 0.0.0.0 --server.port 8501
+
+  # Optional pgvector backend, off by default. Start with:
+  #   docker compose -f docker-compose.yml --profile pgvector up
+  # and set VECTOR_STORE=pgvector and
+  # DATABASE_URL=postgresql://postgres:postgres@postgres:5432/banking_rag
+  # in shared/.env first (see Part 5's README) -- "postgres" here is this
+  # service's name on the compose network, not localhost.
+  postgres:
+    image: pgvector/pgvector:pg16
+    profiles: ["pgvector"]
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=banking_rag
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  storage_data:
+  postgres_data:
