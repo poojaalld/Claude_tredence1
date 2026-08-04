@@ -1,0 +1,21 @@
+# Local virtual environment -- never shipped in the image; deps come from requirements.txt
+venv/
+.venv/
+
+# Python artifacts
+__pycache__/
+*.pyc
+
+# Git metadata
+.git/
+.gitignore
+
+# Secrets -- passed at runtime via docker-compose env_file/environment, never baked into a layer
+shared/.env
+
+# Logs (regenerated at runtime)
+shared/logs/*
+!shared/logs/.gitkeep
+
+# Not needed inside the image
+Part9_Streamlit_Frontend/screenshots/

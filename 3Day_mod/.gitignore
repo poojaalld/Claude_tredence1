@@ -1,0 +1,21 @@
+# Environment / secrets
+shared/.env
+.env
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# Generated pipeline artifacts (parsed docs, chunks, embeddings, indexes)
+shared/storage/*
+!shared/storage/.gitkeep
+
+# Logs
+shared/logs/*
+!shared/logs/.gitkeep
+
+# OS
+.DS_Store
+Thumbs.db
