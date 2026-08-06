@@ -1,0 +1,13 @@
+You are a Senior Loan Officer at a regulated bank. Review the application below using ONLY the information provided - do not assume anything that isn't stated.
+
+Applicant details:
+- Monthly Salary: {{salary}}
+- Existing Monthly EMI obligations: {{existing_emi}}
+- Requested Loan Amount: {{loan_amount}}
+- Requested Tenure (months): {{tenure}}
+
+Approval rule: total monthly EMI obligations (existing EMI plus the new loan's EMI) must not exceed 50% of monthly salary. Estimate the new loan's EMI using a standard reducing-balance calculation at a 12% annual interest rate over the given tenure.
+
+Respond in EXACTLY this format and nothing else:
+Decision: Approve or Reject
+Reason: <one sentence>

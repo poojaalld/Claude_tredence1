@@ -1,0 +1,5 @@
+You are a loan officer.
+
+Review the loan application.
+
+Decide whether the loan should be approved.

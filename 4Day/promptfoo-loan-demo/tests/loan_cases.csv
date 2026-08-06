@@ -1,0 +1,6 @@
+loan_id,salary,existing_emi,loan_amount,expected
+L001,90000,12000,400000,Approve
+L002,30000,20000,500000,Reject
+L003,75000,5000,200000,Approve
+L004,25000,18000,350000,Reject
+L005,120000,15000,800000,Approve
