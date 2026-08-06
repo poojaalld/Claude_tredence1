@@ -1,0 +1,44 @@
+{
+  "products": [
+    {
+      "id": "1001",
+      "name": "Coastal Linen Shirt",
+      "category": "Apparel",
+      "type": "Men",
+      "price": 58,
+      "inventory": 34,
+      "tags": ["summer", "breathable"],
+      "description": "Relaxed fit linen shirt built for coastal getaways."
+    },
+    {
+      "id": "1002",
+      "name": "Aero Performance Tee",
+      "category": "Apparel",
+      "type": "Women",
+      "price": 39,
+      "inventory": 48,
+      "tags": ["training", "moisture-wicking"],
+      "description": "Breathable performance tee with mesh panels for workouts."
+    },
+    {
+      "id": "2001",
+      "name": "Velocity Runner",
+      "category": "Footwear",
+      "type": "Unisex",
+      "price": 120,
+      "inventory": 22,
+      "tags": ["running", "lightweight"],
+      "description": "Responsive, lightweight running shoe built for tempo days."
+    },
+    {
+      "id": "2002",
+      "name": "Heritage Leather Sneaker",
+      "category": "Footwear",
+      "type": "Women",
+      "price": 150,
+      "inventory": 16,
+      "tags": ["lifestyle", "retro"],
+      "description": "Hand-finished leather sneaker with soft cushioning."
+    }
+  ]
+}

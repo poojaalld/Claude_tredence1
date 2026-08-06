@@ -1,0 +1,124 @@
+:root {
+  font-family: "Inter", system-ui, sans-serif;
+  background: #0f172a;
+  color: #e2e8f0;
+}
+
+body {
+  margin: 0;
+  background: #0f172a;
+}
+
+.app-shell {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: #94a3b8;
+  font-size: 0.75rem;
+}
+
+h1 {
+  margin: 0.25rem 0 0.5rem;
+  font-size: 2.1rem;
+}
+
+p {
+  margin: 0;
+}
+
+.script-picker {
+  background: #1e293b;
+  padding: 1.25rem;
+  border-radius: 1rem;
+  margin-top: 1.5rem;
+  border: 1px solid #334155;
+}
+
+.script-picker label {
+  font-size: 0.9rem;
+  color: #94a3b8;
+}
+
+.picker-row {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.75rem;
+  align-items: center;
+}
+
+select {
+  flex: 1;
+  border-radius: 0.6rem;
+  border: 1px solid #475569;
+  padding: 0.75rem 1rem;
+  background: #0f172a;
+  color: inherit;
+}
+
+button {
+  background: #38bdf8;
+  color: #0f172a;
+  border: none;
+  border-radius: 0.6rem;
+  padding: 0.85rem 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.script-description {
+  margin-top: 1rem;
+  background: #0f172a;
+  border: 1px dashed #475569;
+  padding: 0.85rem;
+  border-radius: 0.6rem;
+}
+
+.script-description code {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  background: #111827;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.diagnostic-card {
+  margin-top: 2rem;
+  background: #f8fafc;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  color: #0f172a;
+}
+
+.diagnostic-detail {
+  margin-bottom: 1rem;
+}
+
+.diagnostic-detail strong {
+  font-size: 0.85rem;
+  color: #475569;
+  display: block;
+}
+
+.patch-preview pre {
+  background: #0f172a;
+  color: #f1f5f9;
+  border-radius: 0.6rem;
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+.status.error {
+  color: #f87171;
+  margin-top: 1rem;
+}

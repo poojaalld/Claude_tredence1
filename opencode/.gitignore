@@ -1,0 +1,28 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.pyo
+
+# --- Virtual environment ---
+venv/
+.venv/
+
+# --- Secrets ---
+.env
+
+# --- Generated runtime artifacts (recreated by the pipeline) ---
+shared/storage/*
+shared/logs/*
+!shared/storage/.gitkeep
+!shared/logs/.gitkeep
+
+# --- Test / tooling caches ---
+.pytest_cache/
+.coverage
+htmlcov/
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

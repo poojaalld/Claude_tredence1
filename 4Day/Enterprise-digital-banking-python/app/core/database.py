@@ -24,6 +24,7 @@ def get_db():
 def create_all_tables() -> None:
     # Import every model module so its table is registered on Base.metadata
     # before create_all runs.
+    from app.beneficiary_service import models as _beneficiary_models  # noqa: F401
     from app.customer_service import models as _customer_models  # noqa: F401
     from app.loan_service import models as _loan_models  # noqa: F401
     from app.notification_service import models as _notification_models  # noqa: F401

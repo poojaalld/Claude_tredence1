@@ -1,0 +1,47 @@
+# Core Dependencies
+python-dotenv==1.0.0
+pydantic==2.6.0
+pydantic-settings==2.1.0
+
+# Document Processing
+langchain==0.1.10
+langchain-community==0.0.20
+pypdf==4.0.0
+python-docx==0.8.11
+unstructured==0.12.2
+
+# Embeddings & LLMs
+langchain-openai==0.0.8
+langchain-anthropic==0.1.15
+voyage-ai==0.2.1
+
+# Vector Databases
+faiss-cpu==1.7.4
+pgvector==0.2.5
+psycopg2-binary==2.9.9
+
+# API & Web Framework
+fastapi==0.104.1
+uvicorn==0.24.0
+pydantic==2.6.0
+
+# Frontend
+streamlit==1.29.0
+streamlit-extras==0.3.5
+
+# Utilities
+python-multipart==0.0.6
+aiofiles==23.2.1
+httpx==0.25.0
+requests==2.31.0
+
+# Data Processing
+numpy==1.26.0
+pandas==2.1.0
+
+# Logging & Monitoring
+loguru==0.7.2
+
+# Testing
+pytest==7.4.0
+pytest-asyncio==0.21.1

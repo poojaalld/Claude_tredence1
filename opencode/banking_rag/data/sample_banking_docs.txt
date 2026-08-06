@@ -1,0 +1,291 @@
+Banking Knowledge Base - Sample Documents
+
+=== DOCUMENT 1: Account Types ===
+
+Title: Types of Bank Accounts
+Date: 2024-01-15
+Author: Customer Service Department
+
+We offer several types of accounts to meet your financial needs:
+
+1. Savings Account
+- Best for storing money and earning interest
+- Minimum balance: $100
+- Interest rate: 2.5% APY (Annual Percentage Yield)
+- No monthly maintenance fee
+- Limited withdrawals per month (6 free withdrawals)
+- FDIC insured up to $250,000
+
+2. Checking Account
+- Designed for frequent daily transactions
+- Minimum balance: $50
+- No interest earned
+- Monthly maintenance fee: $12.99 (waived with direct deposit)
+- Unlimited transactions
+- Includes free debit card and checks
+- FDIC insured up to $250,000
+
+3. Money Market Account
+- Hybrid account combining features of savings and checking
+- Minimum balance: $2,500
+- Interest rate: 3.75% APY
+- 6 free withdrawals per statement period
+- Tiered interest rates based on balance
+- FDIC insured up to $250,000
+
+4. Certificate of Deposit (CD)
+- Fixed-term investment products
+- Minimum deposit: $1,000
+- Terms: 3 months to 5 years
+- Early withdrawal penalty: 6 months interest
+- Interest rates: 4.5% - 5.0% depending on term
+- FDIC insured up to $250,000
+
+=== DOCUMENT 2: Loan Products ===
+
+Title: Available Loan Products and Terms
+Date: 2024-01-18
+Author: Lending Department
+
+We offer the following loan products:
+
+Personal Loans
+- Loan amounts: $1,000 - $50,000
+- Interest rates: 6.5% - 18.5% APR
+- Repayment terms: 12 - 60 months
+- Application process: Online or in-branch
+- Approval time: 24-48 hours
+- No prepayment penalty
+
+Auto Loans
+- Vehicle types: Cars, trucks, motorcycles
+- Loan amounts: $5,000 - $100,000
+- Interest rates: 3.99% - 8.99% APR
+- Repayment terms: 24 - 72 months
+- Loan-to-value (LTV): Up to 125%
+- Acceptable vehicles: Model year 2010 or newer
+- No early payoff penalty
+
+Home Loans (Mortgages)
+- Loan amounts: $50,000 - $1,000,000+
+- Interest rates: 6.5% - 7.5% APR (fixed)
+- Repayment terms: 15 - 30 years
+- Down payment: Minimum 3-20%
+- Closing costs: 2-5% of loan amount
+- PMI required if down payment < 20%
+- Application process: Professional mortgage advisors available
+
+Business Loans
+- Loan amounts: $10,000 - $500,000
+- Interest rates: 5.5% - 12% APR
+- Terms: 2 - 10 years
+- Purpose: Working capital, equipment, expansion
+- Requires business plan and financial statements
+- SBA loans available
+
+=== DOCUMENT 3: Fees and Charges ===
+
+Title: Schedule of Banking Fees and Charges
+Date: 2024-01-20
+Author: Finance Department
+
+Standard Account Fees:
+- Monthly account maintenance: $0 - $12.99
+- Overdraft fee: $35 per occurrence
+- NSF (Non-Sufficient Funds) fee: $35
+- Wire transfer fee: $15 - $25 (domestic), $45 - $65 (international)
+- ATM fee (out-of-network): $2.50 - $3.50
+- Stop payment fee: $25
+- Check copy fee: $2 per check
+- Statement copy fee: $5
+
+Card Fees:
+- Credit card annual fee: $0 - $95 (depending on tier)
+- Late payment fee: $25 - $40
+- Over-limit fee: $35
+- Foreign transaction fee: 2-3% of transaction
+- Card replacement fee: $0 - $15
+
+Loan Fees:
+- Application fee: $0 - $500
+- Origination fee: 0% - 3% of loan amount
+- Appraisal fee: $250 - $500
+- Title insurance: 0.5 - 1% of loan amount
+- Early payoff penalty: None for most personal loans
+
+=== DOCUMENT 4: Security and Protection ===
+
+Title: Account Security and Fraud Protection
+Date: 2024-01-22
+Author: Security Department
+
+Our Security Features:
+
+Fraud Protection
+- 24/7 monitoring for unauthorized activity
+- Zero liability for fraudulent transactions
+- Immediate card replacement service
+- Secure messaging through online banking
+
+Online Banking Security
+- 256-bit SSL encryption
+- Multi-factor authentication available
+- Biometric login options (fingerprint, face recognition)
+- Session timeout protection
+- Suspicious activity alerts
+
+Physical Security
+- FDIC insurance: $250,000 per account
+- Safe deposit boxes available
+- In-branch security measures
+- Background checks for employees
+
+ID Theft Protection
+- Credit monitoring included with premium accounts
+- Identity theft resolution specialists
+- Legal support included
+- Credit report monitoring
+
+Reporting Suspected Fraud:
+- Contact customer service immediately
+- Call 24/7 fraud line: 1-800-FRAUD-NOW
+- Report through mobile app
+- File dispute within 60 days of discovery
+
+=== DOCUMENT 5: Digital Banking Services ===
+
+Title: Mobile and Online Banking Features
+Date: 2024-01-25
+Author: Technology Department
+
+Mobile Banking App Features:
+- Account balance checking
+- Transaction history and search
+- Mobile check deposit
+- P2P payments to other bank customers
+- Bill payment setup
+- Card controls (freeze/unfreeze)
+- Cardless ATM withdrawal
+- Account alerts and notifications
+- Fingerprint/Face ID login
+
+Online Banking Features:
+- Full account management
+- Fund transfers between accounts
+- External account transfers
+- Bill payment
+- Check writing from accounts
+- Document download and storage
+- Financial planning tools
+- Investment account access
+- Loan applications and management
+- Account consolidation tools
+
+Digital Wallet Support:
+- Apple Pay
+- Google Pay
+- Samsung Pay
+- Digital card numbers available
+- Tokenization for enhanced security
+
+Availability:
+- 24/7/365 access
+- Service unavailability: Scheduled maintenance Tuesday 2-4 AM EST
+- Downtime notifications available
+- Customer support available during banking hours
+
+=== DOCUMENT 6: Interest Rates and APY ===
+
+Title: Current Interest Rates and Annual Percentage Yields
+Date: 2024-02-01
+Author: Treasury Department
+
+Effective: February 1, 2024
+
+Deposit Products:
+- Savings Account: 2.50% APY
+  * Balance $0-$10,000: 2.00% APY
+  * Balance $10,001-$50,000: 2.50% APY
+  * Balance $50,001+: 2.75% APY
+
+- Money Market Account: 3.75% APY
+  * Balance $0-$25,000: 3.25% APY
+  * Balance $25,001-$100,000: 3.75% APY
+  * Balance $100,001+: 4.00% APY
+
+- Certificates of Deposit:
+  * 3-Month CD: 4.50% APY
+  * 6-Month CD: 4.75% APY
+  * 12-Month CD: 5.00% APY
+  * 24-Month CD: 5.00% APY
+  * 60-Month CD: 4.90% APY
+
+Loan Products (Typical Rates):
+- Personal Loan: 6.5% - 18.5% APR
+- Auto Loan: 3.99% - 8.99% APR
+- Home Loan: 6.5% - 7.5% APR
+- Business Loan: 5.5% - 12% APR
+- Credit Card: 12.99% - 24.99% APR
+
+Prime Rate: 5.50%
+(Subject to Federal Reserve changes)
+
+Next Rate Review: March 1, 2024
+
+=== DOCUMENT 7: Customer Support ===
+
+Title: Customer Support and Service Channels
+Date: 2024-02-03
+Author: Customer Service Department
+
+Support Channels:
+
+Phone Support:
+- Primary: 1-800-BANK-123 (1-800-226-5123)
+- International: +1-412-555-0123
+- Hours: 7 AM - 9 PM EST, Monday - Friday
+- Hours: 8 AM - 5 PM EST, Saturday
+- Hours: 9 AM - 4 PM EST, Sunday
+- Average wait time: 2-5 minutes
+
+In-Branch Support:
+- Locations: 500+ branches nationwide
+- Hours: 9 AM - 5 PM Monday - Friday
+- Hours: 9 AM - 1 PM Saturday
+- Closed Sunday
+- Services: Account opening, loan applications, safe deposit boxes
+
+Email Support:
+- Address: support@ourbank.com
+- Response time: 24-48 business hours
+- For non-urgent inquiries only
+
+Chat Support:
+- Available through mobile app and website
+- Hours: 8 AM - 10 PM EST, 7 days a week
+- Average response time: 2-3 minutes
+
+Self-Service:
+- FAQ section on website
+- Video tutorials
+- Knowledge base with 500+ articles
+- Community forums
+- Virtual assistant chatbot (24/7)
+
+Common Issues Resolved:
+- Account setup and management
+- Password resets
+- Transaction disputes
+- Fraud reporting
+- Loan applications
+- Credit limit increases
+- Fee waivers
+- Account upgrades
+
+Complaints Resolution:
+- File complaint online, by phone, or in-branch
+- Resolution timeline: 30-60 days
+- Escalation available
+- Consumer protection compliance
+
+Note: For urgent issues, always call the phone support line or visit an in-branch location for immediate assistance.

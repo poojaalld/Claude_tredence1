@@ -1,90 +1,54 @@
-"""Simple module to demonstrate the differences between Claude models.
+"""Claude model comparison — change MODEL below, re-run, compare the output.
 
-This module provides a compact comparison of Claude Opus, Claude Sonnet,
-and Claude Haiku for educational and demo purposes.
+Same prompt, same code, only the model changes. Watch the response text,
+the response time, and the token counts change with it.
+
+Setup (one-time):
+    pip install anthropic python-dotenv
+    Put ANTHROPIC_API_KEY=sk-ant-... in a .env file in this folder
+    (or just export ANTHROPIC_API_KEY in your shell instead).
+
+Usage:
+    python claude_models_comparison.py
 """
 
-from dataclasses import dataclass
-from typing import List
+import sys
+import time
 
+import anthropic
+from dotenv import load_dotenv
 
-@dataclass(frozen=True)
-class ClaudeModel:
-    name: str
-    best_for: str
-    strength: str
-    speed: str
-    cost: str
-    quality: str
-    note: str
+sys.stdout.reconfigure(encoding="utf-8")  # Windows consoles default to cp1252, which can't print every character Claude might use
+load_dotenv()
 
+# ---- Change this line, then re-run the script -----------------------
+#MODEL = "claude-haiku-4-5"
+#MODEL = "claude-sonnet-5"
+MODEL = "claude-opus-5"
+# -----------------------------------------------------------------------
 
-def get_models() -> List[ClaudeModel]:
-    """Return a list of Claude model profiles for comparison."""
-    return [
-        ClaudeModel(
-            name="Claude Opus",
-            best_for="Complex reasoning, deep analysis, high-stakes tasks",
-            strength="Highest quality and nuance",
-            speed="Slower",
-            cost="Highest",
-            quality="Excellent",
-            note="Best when accuracy and depth matter more than speed.",
-        ),
-        ClaudeModel(
-            name="Claude Sonnet",
-            best_for="Balanced everyday coding and general work",
-            strength="Great mix of quality and speed",
-            speed="Balanced",
-            cost="Medium",
-            quality="Very strong",
-            note="A strong default choice for most production scenarios.",
-        ),
-        ClaudeModel(
-            name="Claude Haiku",
-            best_for="Fast, lightweight, and low-cost tasks",
-            strength="Fastest response with lower latency",
-            speed="Fastest",
-            cost="Lowest",
-            quality="Good",
-            note="Best for simple automation, chat, and high-volume workloads.",
-        ),
-    ]
+PROMPT = (
+    "A farmer has 17 sheep. All but 9 die. How many sheep are left? "
+    "Then, in one short paragraph, explain a subtle mistake someone might "
+    "make when answering this."
+)
 
+client = anthropic.Anthropic()
 
-def compare_models() -> str:
-    """Create a readable comparison summary for all Claude models."""
-    models = get_models()
-    lines = [
-        "Claude Model Comparison",
-        "=======================",
-    ]
+start = time.time()
+response = client.messages.create(
+    model=MODEL,
+    max_tokens=1024,
+    messages=[{"role": "user", "content": PROMPT}],
+)
+elapsed = time.time() - start
 
-    for model in models:
-        lines.append(f"\n{model.name}")
-        lines.append(f"- Best for: {model.best_for}")
-        lines.append(f"- Strength: {model.strength}")
-        lines.append(f"- Speed: {model.speed}")
-        lines.append(f"- Cost: {model.cost}")
-        lines.append(f"- Quality: {model.quality}")
-        lines.append(f"- Note: {model.note}")
+reply = "".join(block.text for block in response.content if block.type == "text")
 
-    lines.append("\nQuick rule of thumb:")
-    lines.append("- Choose Opus for the hardest reasoning tasks.")
-    lines.append("- Choose Sonnet for a balanced everyday default.")
-    lines.append("- Choose Haiku for speed and budget-sensitive use cases.")
-
-    lines.append("\n Use case example:")
-    lines.append("- Scenario: You have a 2-page product brief and need a launch plan.")
-    lines.append("  * Claude Opus: best for a detailed, accurate implementation plan with")
-    lines.append("    strong reasoning and nuance.")
-    lines.append("  * Claude Sonnet: best for a solid plan with good speed and reliable")
-    lines.append("    structure.")
-    lines.append("  * Claude Haiku: best for a fast outline or quick checklist when you")
-    lines.append("    want a lightweight result.")
-
-    return "\n".join(lines)
-
-
-if __name__ == "__main__":
-    print(compare_models())
+print(f"Model:         {MODEL}")
+print(f"Time taken:    {elapsed:.2f}s")
+print(f"Input tokens:  {response.usage.input_tokens}")
+print(f"Output tokens: {response.usage.output_tokens}")
+print()
+print("Response:")
+print(reply)

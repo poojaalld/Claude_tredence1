@@ -1,0 +1,131 @@
+pipeline {
+    agent any
+
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+        timeout(time: 30, unit: 'MINUTES')
+        timestamps()
+    }
+
+    environment {
+        PYTHON_VERSION = '3.9'
+        VENV_DIR = '.venv'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+                script {
+                    echo "Repository checked out successfully"
+                    sh 'git log --oneline -5'
+                }
+            }
+        }
+
+        stage('Setup Environment') {
+            steps {
+                script {
+                    echo "Setting up Python virtual environment..."
+                    sh '''
+                        python -m venv ${VENV_DIR}
+                        . ${VENV_DIR}/bin/activate || . ${VENV_DIR}/Scripts/activate
+                        python -m pip install --upgrade pip
+                        pip install -r requirements.txt
+                    '''
+                }
+            }
+        }
+
+        stage('Code Quality & Linting') {
+            steps {
+                script {
+                    echo "Running code quality checks..."
+                    sh '''
+                        . ${VENV_DIR}/bin/activate || . ${VENV_DIR}/Scripts/activate
+                        pip install pylint flake8 2>/dev/null || true
+                        echo "Pylint check (non-blocking):"
+                        pylint app/ --exit-zero || true
+                        echo "Flake8 check (non-blocking):"
+                        flake8 app/ --max-line-length=120 --exit-zero || true
+                    '''
+                }
+            }
+        }
+
+        stage('Unit Tests') {
+            steps {
+                script {
+                    echo "Running unit tests..."
+                    sh '''
+                        . ${VENV_DIR}/bin/activate || . ${VENV_DIR}/Scripts/activate
+                        python -m pytest tests/ -v --tb=short --junit-xml=test-results.xml --cov=app --cov-report=xml --cov-report=html
+                    '''
+                }
+            }
+        }
+
+        stage('Build') {
+            steps {
+                script {
+                    echo "Build stage: Application ready for deployment"
+                    sh '''
+                        . ${VENV_DIR}/bin/activate || . ${VENV_DIR}/Scripts/activate
+                        python -m py_compile app/**/*.py
+                        echo "Python compilation successful"
+                    '''
+                }
+            }
+        }
+
+        stage('Security Check') {
+            steps {
+                script {
+                    echo "Running security checks..."
+                    sh '''
+                        . ${VENV_DIR}/bin/activate || . ${VENV_DIR}/Scripts/activate
+                        pip install bandit safety 2>/dev/null || true
+                        echo "Bandit security check (non-blocking):"
+                        bandit -r app/ -f json -o bandit-report.json || true
+                        echo "Dependency vulnerability check (non-blocking):"
+                        safety check --json || true
+                    '''
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo "Pipeline execution completed"
+            
+            // Publish test results
+            junit allowEmptyResults: true, testResults: 'test-results.xml'
+            
+            // Publish code coverage
+            publishHTML([
+                reportDir: 'htmlcov',
+                reportFiles: 'index.html',
+                reportName: 'Code Coverage Report'
+            ])
+            
+            // Clean up
+            cleanWs(deleteDirs: true, patterns: [[pattern: '.venv/**', type: 'INCLUDE']])
+        }
+
+        success {
+            echo "Pipeline succeeded!"
+            // Add notification here (e.g., Slack, Email)
+        }
+
+        failure {
+            echo "Pipeline failed!"
+            // Add notification here (e.g., Slack, Email)
+        }
+
+        unstable {
+            echo "Pipeline is unstable"
+            // Add notification here (e.g., Slack, Email)
+        }
+    }
+}
