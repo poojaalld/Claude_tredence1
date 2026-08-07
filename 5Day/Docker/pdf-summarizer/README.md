@@ -76,3 +76,44 @@ stateless, which keeps the demo container trivial to reason about.
   instead of a stack trace — good for demonstrating error handling.
 - To show a rebuild-on-change loop, edit the summarization prompt in
   `app/main.py`, then `docker build` + `docker run` again.
+
+
+
+Steps
+0. Command parsing
+-t pdf-summarizer sets the image name/tag (defaults to :latest). The trailing . is the build context — the directory whose contents Docker is allowed to see and COPY from (here, pdf-summarizer/).
+
+1. Send the build context to the Docker daemon
+Docker Desktop runs a daemon (and BuildKit/buildx as the build engine). The CLI tars up the contents of . and streams it to that daemon — this is why files listed in .dockerignore are excluded (keeps .env, __pycache__, etc. out of the context).
+
+2. Read and parse the Dockerfile
+BuildKit parses Dockerfile into a sequence of build steps (a DAG of layers), each becoming a cache-checkable unit.
+
+3. FROM python:3.11-slim
+Docker checks if this base image is already cached locally. If not, it pulls it from Docker Hub, layer by layer.
+
+4. WORKDIR /app
+Sets /app as the working directory inside the image for every instruction after it.
+
+5. COPY requirements.txt .
+Copies just that one file from the build context into the image. It's deliberately copied before the rest of the app code — this is a caching trick: this layer only invalidates when requirements.txt changes.
+
+6. RUN pip install --no-cache-dir -r requirements.txt
+Runs inside a temporary container based on the image-so-far, installing FastAPI, uvicorn, the anthropic SDK, etc. (you saw this in the earlier build log — each package downloaded and installed). The result is committed as a new layer.
+
+Because of the ordering in steps 5–6, if you only edit app/main.py later, Docker reuses the cached dependency-install layer instead of reinstalling everything — much faster rebuilds.
+
+7. COPY app ./app
+Copies the app/ folder (backend code + static frontend) into the image. This layer does invalidate on every code change, which is intentional — it's cheap, so it's placed last.
+
+8. EXPOSE 8000
+Metadata only — documents that the container listens on port 8000. It doesn't actually publish the port (that happens at docker run -p).
+
+9. CMD [...]
+Records the default command (uvicorn app.main:app --host 0.0.0.0 --port 8000) that runs when a container starts from this image. Not executed during build.
+
+10. Export the final image
+BuildKit assembles all the layers into a final image, writes the manifest/config, and tags it pdf-summarizer:latest in your local image store.
+
+11. Done
+docker images pdf-summarizer now shows the new image (as you saw earlier: ~274MB). No container is running yet — that only happens on docker run or docker compose u
